@@ -11,7 +11,7 @@ import scala.io.Source.fromFile
   */
 object Task4 {
   def main(args: Array[String]): Unit = {
-    val inputFileName = "tests/HW4/test5.in"
+    val inputFileName = "test.in"
     val outputFileName = "res.out"
     val output = new PrintWriter(outputFileName)
     val expressions = fromFile(inputFileName).getLines().filter(!_.isEmpty).map(LambdaExprParser.parseExpression).toSeq

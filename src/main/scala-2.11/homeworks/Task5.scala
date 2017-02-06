@@ -2,8 +2,8 @@ package homeworks
 
 import java.io.PrintWriter
 
-import library.TermParser
-import library.TermUtils.unificate
+import library.terms.TermUtils.unificate
+import library.terms.TermParser
 
 import scala.io.Source.fromFile
 

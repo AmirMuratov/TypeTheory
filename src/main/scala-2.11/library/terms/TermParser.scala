@@ -1,4 +1,4 @@
-package library
+package library.terms
 
 import org.parboiled2.{Rule1, _}
 

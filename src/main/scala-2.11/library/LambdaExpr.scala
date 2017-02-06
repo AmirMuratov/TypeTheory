@@ -17,7 +17,7 @@ sealed trait LambdaExpr {
     LambdaExpr.equalsWithSubst(this, Map(), o, Map())
   }
 
-  override def hashCode() = hashCodeWithSubst(Map())
+  override def hashCode(): Int = hashCodeWithSubst(Map())
 
   def hashCodeWithSubst(subst: Map[String, Int]):Int = {
     this match {

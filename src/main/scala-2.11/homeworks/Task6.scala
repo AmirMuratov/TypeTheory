@@ -3,7 +3,7 @@ package homeworks
 import java.io.PrintWriter
 
 import library.LambdaExprParser
-import library.LambdaUtils.getFreeVars
+import library.task6.TypeDefiner
 
 import scala.io.Source.fromFile
 
@@ -21,8 +21,16 @@ object Task6 {
       println("Can't parse some expressions")
       return
     }
-
-    expressions.map((x) => getFreeVars(x.get)).foreach((x) => x.sorted.foreach(output.println))
+    val expr = expressions.head.get
+    try {
+      val (ansType, ansContext) = (new TypeDefiner).getType(expr)
+      println(ansType)
+      ansContext.foreach((x) => println(x._1 + ":" + x._2))
+      output.println(ansType)
+      ansContext.foreach((x) => output.println(x._1 + ":" + x._2))
+    } catch {
+      case _: Exception => output.println("Лямбда-выражение не имеет типа.")
+    }
     output.close()
   }
 }

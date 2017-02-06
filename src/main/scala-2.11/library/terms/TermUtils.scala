@@ -1,4 +1,4 @@
-package library
+package library.terms
 
 /**
   * Created by amir on 05.02.17.
@@ -48,16 +48,18 @@ object TermUtils {
   }
 
   def subst(terms: Seq[(Term, Term)]): Seq[(Term, Term)] = {
-    val termsToSubst = terms.filter((x) => x match {
-      case (Variable(_), _) => true
+    val termToSubst = terms.find {
+      case (Variable(name), _) if
+      terms.count((x) => contains(name, x._1) || contains(name, x._2)) > 1 => true
       case _ => false
-    })
-    terms.map((x) => termsToSubst.foldRight(x)((a: (Term, Term) , b: (Term, Term)) => (a, b) match {
-      case ((Variable(name), t), (Variable(name2), _)) if name.equals(name2) =>
-        (b._1, substitute(name, b._2, t))
-      case ((Variable(name), t), _) =>
-        (substitute(name, b._1, t), substitute(name, b._2, t))
-    }))
+    }
+    if (termToSubst.isEmpty)
+      return terms
+    //println("subst: " + termToSubst.get._1 + "=" + termToSubst.get._2)
+    termToSubst.get match {
+      case (Variable(name), s) => terms.map((x) => if (x == termToSubst.get) x else
+        (substitute(name, x._1, s), substitute(name, x._2, s)))
+    }
   }
 
   def isSolved(terms: Seq[(Term, Term)]): Boolean = {
@@ -75,11 +77,23 @@ object TermUtils {
   def unificate(terms: Seq[(Term, Term)]): Seq[(Term, Term)] = {
     var t = terms
     while (!isSolved(t)) {
-      //println("====")
+      //println("==before==")
       //t.foreach((x) => println(x._1 + "=" + x._2))
+      //println("====")
       if (isInconsistent(t))
         throw new IllegalStateException
-      t = deleteUseless(subst(t).flatMap(transform))
+      t = subst(t)
+      //println("==afterSubst==")
+      //t.foreach((x) => println(x._1 + "=" + x._2))
+      //println("====")
+      t = t.flatMap(transform)
+      //println("==afterTransform==")
+      //foreach((x) => println(x._1 + "=" + x._2))
+      //println("====")
+      t = deleteUseless(t)
+      //println("==afterDeleteUsless==")
+      //t.foreach((x) => println(x._1 + "=" + x._2))
+      //println("====")
     }
     t
   }

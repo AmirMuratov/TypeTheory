@@ -31,7 +31,6 @@ class NormalForm {
   def findNormalForm(expr: LambdaExpr): LambdaExpr = {
     if (memory.contains(expr))
       return memory(expr)
-    //println(expr)
     val nf = expr match {
       case a@App(Lambda(name, x), y) =>
         val s = makeSubst(x, name, y)

@@ -1,4 +1,4 @@
-package library
+package library.terms
 
 /**
   * Created by amir on 04.02.17.
