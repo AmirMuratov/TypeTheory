@@ -5,15 +5,15 @@ package library
   */
 
 object LambdaUtils {
-  def getFreeVars(expr: LambdaExpr): Seq[String] = {
+  def getFreeVars(expr: LambdaExpr): Set[String] = {
     getFreeVars(expr, Set())
   }
 
-  def getFreeVars(expr: LambdaExpr, notFree: Set[String]): Seq[String] = {
+  def getFreeVars(expr: LambdaExpr, notFree: Set[String]): Set[String] = {
     expr match {
       case Lambda(varName, x) => getFreeVars(x, notFree + varName)
       case App(x, y) => getFreeVars(x, notFree) ++ getFreeVars(y, notFree)
-      case Var(name) => if (!notFree.contains(name)) Seq(name) else Seq()
+      case Var(name) => if (!notFree.contains(name)) Set(name) else Set()
       case _ => throw new IllegalStateException()
     }
   }
@@ -41,7 +41,7 @@ object LambdaUtils {
         else
           None
       case v@Var(name) => if (varName.equals(name)) {
-        if (notFree.intersect(getFreeVars(exprToSubst).toSet).isEmpty)
+        if (notFree.intersect(getFreeVars(exprToSubst)).isEmpty)
           Some(exprToSubst)
         else
           None

@@ -47,6 +47,9 @@ object TermUtils {
     terms.filter((x) => !(x._1 == x._2))
   }
 
+  def deleteDuplicates(terms: Seq[(Term, Term)]): Seq[(Term, Term)] = {
+    terms.toSet.toSeq
+  }
   def subst(terms: Seq[(Term, Term)]): Seq[(Term, Term)] = {
     val termToSubst = terms.find {
       case (Variable(name), _) if
@@ -94,6 +97,7 @@ object TermUtils {
       //println("==afterDeleteUsless==")
       //t.foreach((x) => println(x._1 + "=" + x._2))
       //println("====")
+      t = deleteDuplicates(t)
     }
     t
   }

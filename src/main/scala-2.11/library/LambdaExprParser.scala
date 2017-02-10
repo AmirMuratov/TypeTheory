@@ -21,14 +21,14 @@ class LambdaExprParser(val input: ParserInput) extends Parser {
   }
 
   def LambdaExp: Rule1[LambdaExpr] = rule {
-    Appl | Atom
+    Appl
     //(optional(Appl ~ " ") ~ LambdaP) ~>
     //  ((f: Option[LambdaExpr], s: LambdaExpr) => if (f.isDefined) App(f.get, s) else s) | Appl
   }
 
 
   def Appl: Rule1[LambdaExpr] = rule {
-    Atom ~ oneOrMore(" " ~ Atom ~> App) //oneOrMore(" " ~ Atom ~> App)
+    Atom ~ zeroOrMore(" " ~ Atom ~> App) //oneOrMore(" " ~ Atom ~> App)
   }
 
   def Atom: Rule1[LambdaExpr] = rule {

@@ -22,7 +22,7 @@ object Task2 {
       return
     }
 
-    expressions.map((x) => getFreeVars(x.get)).foreach((x) => x.sorted.foreach(output.println))
+    expressions.map((x) => getFreeVars(x.get)).foreach((x) => x.toSeq.sorted.foreach(output.println))
     output.close()
   }
 }

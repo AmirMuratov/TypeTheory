@@ -21,9 +21,7 @@ object Task4 {
     }
     println("parsing done")
     expressions.map(_.get).foreach((x) => {
-      val t = new NormalForm()
-      output.println(t.findNormalForm(x))
-      //t.memory.foreach(println)
+      output.println((new NormalForm).normalForm(x))
     })
     output.close()
   }
